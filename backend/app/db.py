@@ -210,7 +210,7 @@ async def init_db():
             VALUES (?, ?, ?, ?, ?, ?, ?)
             """, (
                 h_id,
-                meta.get("name", "Apiary Alpha - Colony 1"),
+                meta.get("name", "Smart-Bee-Keeping - Colony 1"),
                 meta.get("location", "Bengaluru Rural, Karnataka, India"),
                 meta.get("installed_ts", datetime.now().isoformat()),
                 meta.get("baseline_kg", 38.5),

@@ -41,7 +41,7 @@ export const Header: React.FC = () => {
         </div>
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-lg font-bold tracking-tight text-white">Apiary Alpha</h1>
+            <h1 className="text-lg font-bold tracking-tight text-white">Smart-Bee-Keeping</h1>
             <span className="text-xs px-2 py-0.5 rounded bg-charcoal-700 text-slate-300 border border-charcoal-600 font-mono">
               HIVE-01
             </span>

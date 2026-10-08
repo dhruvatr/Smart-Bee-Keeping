@@ -1,7 +1,7 @@
 {
   "hive_meta": {
     "hive_id": "HIVE-01",
-    "name": "Apiary Alpha - Colony 1",
+    "name": "Smart-Bee-Keeping - Colony 1",
     "location": "Bengaluru Rural, Karnataka, India",
     "timezone": "Asia/Kolkata",
     "installed_ts": "2026-09-08T00:00:00+05:30",
@@ -54,7 +54,7 @@
     "known_check_mass_kg": 5.0,
     "k_temp_kg_per_c": 0.002,
     "audio_noise_floor_db": -65.0,
-    "refractometer_offset_pct": -0.07
+    "refractometer_offset_pct": -0.12
   },
   "thresholds": {
     "brood_temp_ideal_min_c": 34.0,

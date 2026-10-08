@@ -30,7 +30,7 @@ export const SettingsPage: React.FC = () => {
         const thr = res.hive_config?.thresholds || {};
         const pref = res.hive_config?.preferences || {};
 
-        setHiveName(meta.name || 'Apiary Alpha - Colony 1');
+        setHiveName(meta.name || 'Smart-Bee-Keeping - Colony 1');
         setLocation(meta.location || 'Bengaluru Rural, Karnataka, India');
         setBroodTempWarnLow(String(thr.brood_temp_warn_low_c || 32.0));
         setBroodTempCritHigh(String(thr.brood_temp_crit_high_c || 36.0));
