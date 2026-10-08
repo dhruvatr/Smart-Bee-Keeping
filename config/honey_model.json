@@ -1,0 +1,58 @@
+{
+  "rh_equilibrium_table_20c": [
+    { "rh": 50.0, "moisture": 16.5 },
+    { "rh": 55.0, "moisture": 17.4 },
+    { "rh": 58.0, "moisture": 17.8 },
+    { "rh": 60.0, "moisture": 18.3 },
+    { "rh": 63.0, "moisture": 19.2 },
+    { "rh": 66.0, "moisture": 20.2 },
+    { "rh": 70.0, "moisture": 22.0 },
+    { "rh": 75.0, "moisture": 24.5 }
+  ],
+  "temp_correction_per_c_above_20": 0.03,
+  "default_initial_nectar_moisture": 0.78,
+  "fusion_weights": {
+    "clean_data": {
+      "min_quality": 0.7,
+      "max_baseline_age_hours": 168.0,
+      "weight_mass_balance_wA": 0.6,
+      "weight_equilibrium_wB": 0.4
+    },
+    "degraded_data": {
+      "weight_mass_balance_wA": 0.2,
+      "weight_equilibrium_wB": 0.8
+    }
+  },
+  "ewma_alpha_refractometer": 0.3,
+  "stages": {
+    "nectar_intake": {
+      "min_hourly_weight_slope_kg": 0.05,
+      "min_moisture_pct": 40.0,
+      "require_daylight": true
+    },
+    "ripening": {
+      "min_moisture_pct": 20.0,
+      "max_moisture_pct": 40.0,
+      "require_negative_slope": true
+    },
+    "raw": {
+      "min_moisture_pct": 18.6,
+      "max_moisture_pct": 20.0,
+      "min_stable_hours": 6.0
+    },
+    "completed": {
+      "max_moisture_pct": 18.6,
+      "min_stable_hours": 12.0
+    }
+  },
+  "hysteresis_minutes": {
+    "standard_state_minutes": 30,
+    "raw_completed_minutes": 120
+  },
+  "moisture_bands": {
+    "excellent_max": 17.5,
+    "grade_a_max": 18.6,
+    "risky_max": 20.0,
+    "fermenting_min": 20.0
+  }
+}

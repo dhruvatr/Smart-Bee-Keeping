@@ -1,0 +1,87 @@
+{
+  "hive_meta": {
+    "hive_id": "HIVE-01",
+    "name": "Apiary Alpha - Colony 1",
+    "location": "Bengaluru Rural, Karnataka, India",
+    "timezone": "Asia/Kolkata",
+    "installed_ts": "2026-09-08T00:00:00+05:30",
+    "baseline_kg": 38.5,
+    "baseline_set_ts": "2026-09-08T06:00:00+05:30",
+    "notes": "Langstroth 10-frame hive with Apis mellifera colony, monitored with dual HX711 and I2S acoustic node."
+  },
+  "sun_schedule": {
+    "sunrise_hour": 6.0,
+    "sunset_hour": 18.5
+  },
+  "hardware_pins": {
+    "loadcell_primary": {
+      "dt_pin": 16,
+      "sck_pin": 17,
+      "gain": 128,
+      "rate_hz": 10
+    },
+    "loadcell_bee_scale": {
+      "dt_pin": 18,
+      "sck_pin": 19,
+      "enabled": true
+    },
+    "dht22_in": {
+      "pin": 4
+    },
+    "dht22_out": {
+      "pin": 5
+    },
+    "bme280": {
+      "sda_pin": 21,
+      "scl_pin": 22
+    },
+    "i2s_mic": {
+      "bclk_pin": 26,
+      "ws_pin": 25,
+      "sd_pin": 32,
+      "sample_rate": 8000
+    },
+    "status_led": {
+      "pin": 2
+    },
+    "buzzer": {
+      "pin": 15
+    }
+  },
+  "calibration": {
+    "counts_tare": 812100,
+    "counts_per_kg": 21450.0,
+    "known_check_mass_kg": 5.0,
+    "k_temp_kg_per_c": 0.002,
+    "audio_noise_floor_db": -65.0,
+    "refractometer_offset_pct": -0.07
+  },
+  "thresholds": {
+    "brood_temp_ideal_min_c": 34.0,
+    "brood_temp_ideal_max_c": 35.0,
+    "brood_temp_warn_low_c": 32.0,
+    "brood_temp_crit_high_c": 36.0,
+    "brood_rh_ideal_min_pct": 50.0,
+    "brood_rh_ideal_max_pct": 60.0,
+    "brood_rh_warn_low_pct": 40.0,
+    "brood_rh_warn_high_pct": 70.0,
+    "swarm_weight_drop_kg": 1.5,
+    "swarm_window_hours": 6.0,
+    "absconding_weight_drop_kg": 3.0,
+    "absconding_window_hours": 24.0,
+    "queenless_freq_shift_hz": 20.0,
+    "queenless_duration_hours": 6.0,
+    "moisture_unripe_pct": 20.0,
+    "moisture_completed_pct": 18.6,
+    "node_offline_timeout_seconds": 300,
+    "loadcell_drift_tolerance_kg": 0.1,
+    "night_loss_spike_factor": 3.0
+  },
+  "preferences": {
+    "weight_unit": "kg",
+    "temp_unit": "C",
+    "sound_alerts_enabled": true,
+    "exclude_low_quality": true,
+    "low_quality_threshold": 0.5
+  }
+}

@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-charcoal-900 text-slate-100 font-sans;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0B0E11;
+}
+::-webkit-scrollbar-thumb {
+  background: #232A34;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #343E4F;
+}
+
+/* Monospace numerals */
+.font-numeric {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-feature-settings: "tnum" 1, "zero" 1;
+}
+
+/* Subtle glow effect */
+.glow-honey {
+  box-shadow: 0 0 20px rgba(242, 183, 5, 0.15);
+}
+.glow-healthy {
+  box-shadow: 0 0 20px rgba(57, 217, 138, 0.15);
+}
+.glow-warning {
+  box-shadow: 0 0 20px rgba(255, 176, 32, 0.15);
+}
+.glow-critical {
+  box-shadow: 0 0 20px rgba(255, 92, 92, 0.15);
+}

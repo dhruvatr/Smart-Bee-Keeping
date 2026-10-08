@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: hive-mosquitto
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: hive-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - HIVE_ID=HIVE-01
+      - MQTT_HOST=mosquitto
+      - MQTT_PORT=1883
+      - DB_PATH=/app/data/hive.db
+      - CONFIG_PATH=/app/config/hive_config.json
+      - HONEY_MODEL_PATH=/app/config/honey_model.json
+      - SIM_MODE=true
+      - SIM_SPEED=60
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+    depends_on:
+      - mosquitto
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: hive-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  hive-data:
