@@ -110,12 +110,12 @@ export const BlockchainPage: React.FC = () => {
             <table className="w-full text-xs text-left">
               <thead>
                 <tr className="border-b border-charcoal-border text-slate-400 uppercase tracking-wider text-[10px]">
-                  <th className="py-2.5 px-3">Batch ID</th>
-                  <th className="py-2.5 px-3">Floral Source</th>
-                  <th className="py-2.5 px-3">Mass</th>
-                  <th className="py-2.5 px-3">Moisture</th>
-                  <th className="py-2.5 px-3">Status</th>
-                  <th className="py-2.5 px-3">Actions</th>
+                  <th className="py-3 px-4 text-left">Batch ID</th>
+                  <th className="py-3 px-4 text-left">Floral Source</th>
+                  <th className="py-3 px-4 text-right">Mass</th>
+                  <th className="py-3 px-4 text-right">Moisture</th>
+                  <th className="py-3 px-4 text-center">Status</th>
+                  <th className="py-3 px-4 text-center">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-charcoal-border font-mono">
@@ -125,19 +125,20 @@ export const BlockchainPage: React.FC = () => {
                     onClick={() => { setSelectedBatch(b); setVerificationResult(null); }}
                     className={`cursor-pointer transition-colors ${selectedBatch?.batch_id === b.batch_id ? 'bg-purple-950/40 text-white' : 'hover:bg-charcoal-700/30 text-slate-300'}`}
                   >
-                    <td className="py-2.5 px-3 font-bold text-honey">{b.batch_id}</td>
-                    <td className="py-2.5 px-3 text-slate-300 truncate max-w-[140px] font-sans">{b.botanical_source}</td>
-                    <td className="py-2.5 px-3">{b.honey_kg} kg</td>
-                    <td className="py-2.5 px-3 font-semibold text-emerald-400">{b.moisture_pct}%</td>
-                    <td className="py-2.5 px-3">
-                      <span className="px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/30 text-[10px]">
-                        FSSAI ✓
+                    <td className="py-3 px-4 font-bold text-honey align-middle">{b.batch_id}</td>
+                    <td className="py-3 px-4 text-slate-300 truncate max-w-[140px] font-sans align-middle">{b.botanical_source}</td>
+                    <td className="py-3 px-4 text-right align-middle">{b.honey_kg} kg</td>
+                    <td className="py-3 px-4 text-right font-semibold text-emerald-400 align-middle">{b.moisture_pct}%</td>
+                    <td className="py-3 px-4 text-center align-middle">
+                      <span className="inline-flex items-center justify-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[11px] font-semibold tracking-wide">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                        FSSAI Compliant
                       </span>
                     </td>
-                    <td className="py-2.5 px-3">
+                    <td className="py-3 px-4 text-center align-middle">
                       <button
                         onClick={(e) => { e.stopPropagation(); setSelectedBatch(b); handleVerify(b.batch_id); }}
-                        className="px-2 py-1 rounded bg-charcoal-700 hover:bg-charcoal-600 text-purple-300 text-[10px] font-bold"
+                        className="px-3 py-1 rounded-lg bg-charcoal-700 hover:bg-charcoal-600 text-purple-300 text-[11px] font-bold transition-colors border border-charcoal-600"
                       >
                         Verify
                       </button>
@@ -185,22 +186,29 @@ export const BlockchainPage: React.FC = () => {
                 </svg>
               </div>
 
-              <div className="space-y-1 text-[10px] text-slate-700 font-mono border-t border-slate-200 pt-2">
-                <div className="flex justify-between">
-                  <span>Harvested:</span>
-                  <span className="font-bold">{selectedBatch.ts.slice(0, 10)}</span>
+              <div className="space-y-2 text-[11px] text-slate-700 font-mono border-t border-slate-200 pt-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Harvest Date:</span>
+                  <span className="font-bold text-slate-900">{selectedBatch.ts.slice(0, 10)}</span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Moisture Content:</span>
-                  <span className="font-bold text-emerald-700">{selectedBatch.moisture_pct}% (FSSAI Pass)</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Quality Status:</span>
+                  <span className="inline-flex items-center gap-1 font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300 text-[10px]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                    FSSAI Pass (&lt;20%)
+                  </span>
                 </div>
-                <div className="flex justify-between">
-                  <span>Net Honey:</span>
-                  <span className="font-bold">{selectedBatch.honey_kg} kg</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Moisture Content:</span>
+                  <span className="font-bold text-slate-900">{selectedBatch.moisture_pct}%</span>
                 </div>
-                <div className="flex justify-between truncate">
-                  <span>Polygon Tx:</span>
-                  <span className="font-bold">{selectedBatch.tx_hash.slice(0, 10)}...</span>
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-500">Net Honey:</span>
+                  <span className="font-bold text-slate-900">{selectedBatch.honey_kg} kg</span>
+                </div>
+                <div className="flex items-center justify-between truncate">
+                  <span className="text-slate-500">Polygon Tx:</span>
+                  <span className="font-bold text-purple-700 font-mono">{selectedBatch.tx_hash.slice(0, 12)}...</span>
                 </div>
               </div>
 
@@ -236,21 +244,24 @@ export const BlockchainPage: React.FC = () => {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs font-mono pt-2">
-            <div>
-              <span className="text-slate-500 block text-[10px]">Batch Identifier</span>
-              <span className="text-white font-bold">{verificationResult.batch?.batch_id}</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono pt-2 border-t border-charcoal-700/60">
+            <div className="space-y-1">
+              <span className="text-slate-400 block text-[10px] uppercase tracking-wider">Batch Identifier</span>
+              <span className="text-white font-bold block">{verificationResult.batch?.batch_id}</span>
             </div>
-            <div>
-              <span className="text-slate-500 block text-[10px]">Botanical Floral Origin</span>
-              <span className="text-honey font-bold">{verificationResult.batch?.botanical_source}</span>
+            <div className="space-y-1">
+              <span className="text-slate-400 block text-[10px] uppercase tracking-wider">Botanical Floral Origin</span>
+              <span className="text-honey font-bold block">{verificationResult.batch?.botanical_source}</span>
             </div>
-            <div>
-              <span className="text-slate-500 block text-[10px]">FSSAI Moisture Quality</span>
-              <span className="text-emerald-400 font-bold">{verificationResult.batch?.moisture_pct}% (Certified &lt;20%)</span>
+            <div className="space-y-1">
+              <span className="text-slate-400 block text-[10px] uppercase tracking-wider">FSSAI Status</span>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                {verificationResult.batch?.moisture_pct}% (Certified &lt;20%)
+              </span>
             </div>
-            <div>
-              <span className="text-slate-500 block text-[10px]">Cryptographic SHA-256</span>
+            <div className="space-y-1">
+              <span className="text-slate-400 block text-[10px] uppercase tracking-wider">Cryptographic Hash</span>
               <span className="text-slate-300 truncate block">{verificationResult.batch?.payload_hash}</span>
             </div>
           </div>
