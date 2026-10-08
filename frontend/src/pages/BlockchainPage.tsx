@@ -59,7 +59,7 @@ export const BlockchainPage: React.FC = () => {
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs px-2 py-0.5 rounded bg-purple-900/60 text-purple-300 border border-purple-500/40 font-mono">
-              SIH 2026 ROXX · PS ID SIH26021
+              IMMUTABLE PROVENANCE
             </span>
             <span className="text-xs px-2 py-0.5 rounded bg-charcoal-700 text-slate-300 font-mono">
               POLYGON AMOY TESTNET

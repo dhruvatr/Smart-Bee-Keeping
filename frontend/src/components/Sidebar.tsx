@@ -103,12 +103,12 @@ export const Sidebar: React.FC = () => {
         ))}
       </div>
 
-      {/* SIH Hackathon & Local Offline Info Card */}
+      {/* Local Offline Info Card */}
       <div className="p-3.5 rounded-xl bg-charcoal-900/80 border border-charcoal-border/80 text-xs space-y-2">
         <div className="flex items-center justify-between text-slate-400">
           <span className="font-semibold text-honey flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-honey animate-ping"></span>
-            SIH 2026 Roxx
+            Smart Bee Keeping
           </span>
           <span className="text-[10px] px-1.5 py-0.5 rounded bg-charcoal-700 text-slate-400 font-mono">
             OFFLINE-READY
