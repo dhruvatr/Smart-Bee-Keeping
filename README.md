@@ -27,20 +27,30 @@ An end-to-end, production-grade IoT monitoring platform for honey bee hives (*Ap
 
 ## 🚀 Quickstart Guide
 
-### Option A: Local Development (Fastest)
+### ⚡ 1-Click Platform Launcher (Fastest)
 
-#### 1. Start Python Backend
-```bash
-cd smart-hive
-python -m pip install -r backend/requirements.txt
-python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000 --reload
+From PowerShell or Command Prompt, run:
+```powershell
+cd D:\projects\portfolio\smart-hive
+.\start-all.bat
 ```
-*The backend initializes the SQLite database with WAL, seeds 30 days of realistic history, and launches the live 2-second telemetry loop.*
+*(Or in PowerShell: `.\start-all.ps1`)*
+This automatically launches both the FastAPI backend on port 8000 and the Vite frontend on port 3000 in dedicated windows!
 
-#### 2. Start React Dashboard
-```bash
-cd smart-hive/frontend
-npm install
+---
+
+### 💻 Manual Two-Terminal Setup
+
+#### Terminal 1: Python FastAPI Backend (Port 8000)
+```powershell
+cd D:\projects\portfolio\smart-hive
+python -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000
+```
+*The backend initializes SQLite with WAL, loads 30 days of seeded telemetry, and begins broadcasting live 2-second sensor packets.*
+
+#### Terminal 2: React Vite Dashboard (Port 3000)
+```powershell
+cd D:\projects\portfolio\smart-hive\frontend
 npm run dev
 ```
 Open **[http://localhost:3000](http://localhost:3000)** in your browser.
