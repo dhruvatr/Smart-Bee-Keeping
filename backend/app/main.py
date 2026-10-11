@@ -1,7 +1,7 @@
 import asyncio
 import logging
 from contextlib import asynccontextmanager
-from datetime import datetime
+from datetime import datetime, timedelta
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -186,8 +186,8 @@ async def run_rollup_task():
         try:
             await asyncio.sleep(60.0)
             async with get_db() as db:
-                # Compute 1-minute rollup for last 2 minutes
-                now_minus_2m = (datetime.now() - asyncio.get_event_loop().time()).isoformat() if False else datetime.now().isoformat()
+                cutoff = (datetime.now() - timedelta(minutes=2)).isoformat()
+                now_str = datetime.now().isoformat()
                 # Aggregate hot readings
                 await db.execute("""
                 INSERT INTO readings_1m (
@@ -196,18 +196,21 @@ async def run_rollup_task():
                     t_in_c_mean, rh_in_pct_mean, t_out_c_mean, rh_out_pct_mean, quality_mean, sample_count
                 )
                 SELECT 
-                    hive_id, datetime('now') as ts,
+                    hive_id, ? as ts,
                     AVG(gross_kg), MIN(gross_kg), MAX(gross_kg), 0.01,
                     (MAX(gross_kg) - MIN(gross_kg)),
                     AVG(freq_dom_hz), AVG(spl_db), AVG(band_hum), AVG(band_act), AVG(band_pip),
                     AVG(t_in_c), AVG(rh_in_pct), AVG(t_out_c), AVG(rh_out_pct), AVG(quality), COUNT(*)
                 FROM readings
-                WHERE ts >= datetime('now', '-2 minutes')
+                WHERE ts >= ?
                 GROUP BY hive_id
-                """)
+                HAVING COUNT(*) > 0
+                """, (now_str, cutoff))
                 await db.commit()
+        except asyncio.CancelledError:
+            break
         except Exception as e:
-            logger.warning(f"Rollup worker tick notice: {e}")
+            logger.debug(f"Rollup worker tick notice: {e}")
             await asyncio.sleep(60.0)
 
 @asynccontextmanager

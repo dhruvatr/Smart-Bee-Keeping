@@ -211,7 +211,8 @@ class HiveSimulator:
         raw_counts = int(self.tare_counts + (measured_gross * self.counts_per_kg))
 
         # Bee scale channel (optional individual forager scale, 90–120 mg = 0.09–0.12 g)
-        bee_scale_g = round(random.choice([0.104, 0.098, 0.115, 0.108, None, None]), 3)
+        bee_val = random.choice([0.104, 0.098, 0.115, 0.108, None, None])
+        bee_scale_g = round(bee_val, 3) if bee_val is not None else None
 
         # 4. Honey Dewatering & State Model
         honey_mass = max(0.0, measured_gross - self.baseline_kg)

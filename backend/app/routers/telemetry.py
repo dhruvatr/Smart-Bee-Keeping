@@ -111,6 +111,48 @@ async def get_live(hive_id: str = HIVE_ID):
         "active_alerts_count": unack_alerts
     }
 
+@router.get("/recent")
+@router.get("/history")
+async def get_recent_readings(hive_id: str = HIVE_ID, limit: int = 60):
+    """Returns the most recent N telemetry frames (default 60) for live strip charts."""
+    async with get_db() as db:
+        cursor = await db.execute("""
+        SELECT ts, gross_kg, freq_dom_hz, t_in_c, rh_in_pct, spl_db
+        FROM (
+            SELECT ts, gross_kg, freq_dom_hz, t_in_c, rh_in_pct, spl_db
+            FROM readings
+            WHERE hive_id = ?
+            ORDER BY ts DESC
+            LIMIT ?
+        )
+        ORDER BY ts ASC
+        """, (hive_id, limit))
+        rows = await cursor.fetchall()
+        rows_list = [dict(r) for r in rows]
+
+        if len(rows_list) < 2:
+            c2 = await db.execute("""
+            SELECT ts, gross_kg_mean as gross_kg, freq_dom_hz_mean as freq_dom_hz,
+                   t_in_c_mean as t_in_c, rh_in_pct_mean as rh_in_pct, spl_db_mean as spl_db
+            FROM (
+                SELECT ts, gross_kg_mean, freq_dom_hz_mean, t_in_c_mean, rh_in_pct_mean, spl_db_mean
+                FROM readings_1m
+                WHERE hive_id = ?
+                ORDER BY ts DESC
+                LIMIT ?
+            )
+            ORDER BY ts ASC
+            """, (hive_id, limit))
+            r2 = await c2.fetchall()
+            if r2:
+                rows_list = [dict(r) for r in r2]
+
+        return {
+            "hive_id": hive_id,
+            "count": len(rows_list),
+            "data": rows_list
+        }
+
 @router.get("/series")
 async def get_series(
     hive_id: str = HIVE_ID,

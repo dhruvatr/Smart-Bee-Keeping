@@ -41,8 +41,10 @@ class MQTTIngestBridge:
             logger.warning(f"MQTT connection failed with code {rc}")
 
     def _on_disconnect(self, client, userdata, disconnect_flags, rc=None, properties=None):
+        was_connected = self.is_connected
         self.is_connected = False
-        logger.warning(f"MQTT disconnected (rc={rc})")
+        if was_connected:
+            logger.info(f"MQTT broker disconnected (rc={rc})")
 
     def _on_message(self, client, userdata, msg):
         try:

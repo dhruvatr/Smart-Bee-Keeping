@@ -10,7 +10,7 @@
     "notes": "Langstroth 10-frame hive with Apis mellifera colony, monitored with dual HX711 and I2S acoustic node."
   },
   "sun_schedule": {
-    "sunrise_hour": 6.0,
+    "sunrise_hour": 6,
     "sunset_hour": 18.5
   },
   "hardware_pins": {
@@ -50,32 +50,32 @@
   },
   "calibration": {
     "counts_tare": 812100,
-    "counts_per_kg": 21450.0,
-    "known_check_mass_kg": 5.0,
+    "counts_per_kg": 21450,
+    "known_check_mass_kg": 5,
     "k_temp_kg_per_c": 0.002,
-    "audio_noise_floor_db": -65.0,
-    "refractometer_offset_pct": -0.12
+    "audio_noise_floor_db": -65,
+    "refractometer_offset_pct": -0.19
   },
   "thresholds": {
-    "brood_temp_ideal_min_c": 34.0,
-    "brood_temp_ideal_max_c": 35.0,
-    "brood_temp_warn_low_c": 32.0,
-    "brood_temp_crit_high_c": 36.0,
-    "brood_rh_ideal_min_pct": 50.0,
-    "brood_rh_ideal_max_pct": 60.0,
-    "brood_rh_warn_low_pct": 40.0,
-    "brood_rh_warn_high_pct": 70.0,
+    "brood_temp_ideal_min_c": 34,
+    "brood_temp_ideal_max_c": 35,
+    "brood_temp_warn_low_c": 32.5,
+    "brood_temp_crit_high_c": 36,
+    "brood_rh_ideal_min_pct": 50,
+    "brood_rh_ideal_max_pct": 60,
+    "brood_rh_warn_low_pct": 40,
+    "brood_rh_warn_high_pct": 70,
     "swarm_weight_drop_kg": 1.5,
-    "swarm_window_hours": 6.0,
-    "absconding_weight_drop_kg": 3.0,
-    "absconding_window_hours": 24.0,
-    "queenless_freq_shift_hz": 20.0,
-    "queenless_duration_hours": 6.0,
-    "moisture_unripe_pct": 20.0,
+    "swarm_window_hours": 6,
+    "absconding_weight_drop_kg": 3,
+    "absconding_window_hours": 24,
+    "queenless_freq_shift_hz": 20,
+    "queenless_duration_hours": 6,
+    "moisture_unripe_pct": 20,
     "moisture_completed_pct": 18.6,
     "node_offline_timeout_seconds": 300,
     "loadcell_drift_tolerance_kg": 0.1,
-    "night_loss_spike_factor": 3.0
+    "night_loss_spike_factor": 3
   },
   "preferences": {
     "weight_unit": "kg",

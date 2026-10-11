@@ -6,6 +6,12 @@ export async function fetchLive(hiveId = 'HIVE-01') {
   return res.json();
 }
 
+export async function fetchRecentReadings(limit = 60, hiveId = 'HIVE-01') {
+  const res = await fetch(`${API_BASE}/recent?limit=${limit}&hive_id=${hiveId}`);
+  if (!res.ok) throw new Error('Failed to fetch recent telemetry frames');
+  return res.json();
+}
+
 export async function fetchSeries(metric: string, res = '1m', from?: string, to?: string, hiveId = 'HIVE-01') {
   let url = `${API_BASE}/series?metric=${metric}&res=${res}&hive_id=${hiveId}`;
   if (from) url += `&from=${encodeURIComponent(from)}`;

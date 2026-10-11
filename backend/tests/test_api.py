@@ -14,11 +14,14 @@ async def test_api_full_endpoints():
         assert res.status_code == 200
         assert res.json()["status"] == "healthy"
 
-        # 2. Live
+        # 2. Live & Recent History
         res = await client.get("/api/live")
         assert res.status_code == 200
-        # If DB was just initialized, returns reading or error message
         assert "hive_id" in res.json() or "error" in res.json()
+
+        res_recent = await client.get("/api/recent?limit=60")
+        assert res_recent.status_code == 200
+        assert "data" in res_recent.json()
 
         # 3. Spectrum
         res = await client.get("/api/spectrum/latest")

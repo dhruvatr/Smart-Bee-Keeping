@@ -1,6 +1,6 @@
 # Smart Hive — Honey Monitoring Dashboard & HoneyChain Web3 Traceability
 
-An end-to-end, production-grade IoT monitoring platform for honey bee hives (*Apis mellifera*), featuring 6 live fused sensor channels, acoustic FFT spectral analysis, autonomous honey ripening state inference, and tamper-proof **HoneyChain** blockchain provenance with dynamic consumer QR verification (Smart India Hackathon 2026, Problem Statement SIH26021, Team Roxx).
+An end-to-end, production-grade IoT monitoring platform for honey bee hives (*Apis mellifera*), featuring 6 live fused sensor channels, acoustic FFT spectral analysis, autonomous honey ripening state inference, and tamper-proof **HoneyChain** blockchain provenance with dynamic consumer QR verification.
 
 ---
 
@@ -16,7 +16,7 @@ An end-to-end, production-grade IoT monitoring platform for honey bee hives (*Ap
 2. **Realistic Physics Simulator**:
    - Generates 30 days of seeded historical data on first run with diurnal Bangalore microclimate cycles.
    - Time compression ($1\times$, $60\times$, $3600\times$) and scenarios (`normal`, `nectar_flow`, `heavy_fanning`, `swarm`, `queenless`, `sensor_fault`, `rain`).
-3. **HoneyChain Web3 Traceability (SIH 2026 Team Roxx)**:
+3. **HoneyChain Web3 Traceability**:
    - Polygon Amoy testnet batch minting with SHA-256 cryptographic verification.
    - Dynamic printable QR code jar labels with legal FSSAI $<20\%$ moisture limit validation.
 4. **Offline & Rural-Ready**:

@@ -191,9 +191,9 @@ export const BlockchainPage: React.FC = () => {
                   <span className="text-slate-500">Harvest Date:</span>
                   <span className="font-bold text-slate-900">{selectedBatch.ts.slice(0, 10)}</span>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-slate-500">Quality Status:</span>
-                  <span className="inline-flex items-center gap-1 font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-300 text-[10px]">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-slate-500 shrink-0">Quality Status:</span>
+                  <span className="inline-flex items-center justify-end gap-1.5 font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-md border border-emerald-300 text-[10px] shrink-0">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                     FSSAI Pass (&lt;20%)
                   </span>
@@ -255,10 +255,12 @@ export const BlockchainPage: React.FC = () => {
             </div>
             <div className="space-y-1">
               <span className="text-slate-400 block text-[10px] uppercase tracking-wider">FSSAI Status</span>
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                {verificationResult.batch?.moisture_pct}% (Certified &lt;20%)
-              </span>
+              <div className="flex items-center pt-0.5">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 text-[11px] font-bold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  {verificationResult.batch?.moisture_pct}% (Certified &lt;20%)
+                </span>
+              </div>
             </div>
             <div className="space-y-1">
               <span className="text-slate-400 block text-[10px] uppercase tracking-wider">Cryptographic Hash</span>

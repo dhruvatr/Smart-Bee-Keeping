@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Reading, DerivedMetrics, HoneyState, Alert, SimStatus } from '../lib/types';
-import { fetchLive } from '../lib/api';
+import { fetchLive, fetchRecentReadings } from '../lib/api';
 
 interface LiveStoreState {
   reading: Reading | null;
@@ -23,6 +23,7 @@ interface LiveStoreState {
   simStatus: SimStatus;
   
   // Actions
+  fetchRecentHistory: () => Promise<void>;
   connectWebSocket: () => void;
   pollFallback: () => Promise<void>;
   dismissAlert: (id?: number) => void;
@@ -32,13 +33,14 @@ export const useLiveStore = create<LiveStoreState>((set, get) => {
   let ws: WebSocket | null = null;
   let reconnectTimeout: any = null;
   let staleInterval: any = null;
+  let pollInterval: any = null;
 
   return {
     reading: null,
     derived: null,
     honeyState: null,
     alerts: [],
-    connectionStatus: 'disconnected',
+    connectionStatus: 'connecting',
     isStale: false,
     lastPacketTime: null,
     rollingHistory: [],
@@ -52,6 +54,25 @@ export const useLiveStore = create<LiveStoreState>((set, get) => {
       }));
     },
 
+    fetchRecentHistory: async () => {
+      try {
+        const res = await fetchRecentReadings(60);
+        if (res && res.data && res.data.length > 0) {
+          const history = res.data.map((r: any) => ({
+            ts: r.ts,
+            gross_kg: r.gross_kg ?? 40.0,
+            freq_dom_hz: r.freq_dom_hz ?? 190.0,
+            t_in_c: r.t_in_c ?? 34.5,
+            rh_in_pct: r.rh_in_pct ?? 55.0,
+            spl_db: r.spl_db ?? -28.0,
+          }));
+          set({ rollingHistory: history });
+        }
+      } catch (_) {
+        // Quiet fallback
+      }
+    },
+
     pollFallback: async () => {
       try {
         const liveData = await fetchLive();
@@ -59,11 +80,11 @@ export const useLiveStore = create<LiveStoreState>((set, get) => {
           const now = new Date();
           const newPoint = {
             ts: liveData.reading.ts,
-            gross_kg: liveData.reading.gross_kg,
-            freq_dom_hz: liveData.reading.freq_dom_hz,
-            t_in_c: liveData.reading.t_in_c,
-            rh_in_pct: liveData.reading.rh_in_pct,
-            spl_db: liveData.reading.spl_db,
+            gross_kg: liveData.reading.gross_kg ?? 40.0,
+            freq_dom_hz: liveData.reading.freq_dom_hz ?? 190.0,
+            t_in_c: liveData.reading.t_in_c ?? 34.5,
+            rh_in_pct: liveData.reading.rh_in_pct ?? 55.0,
+            spl_db: liveData.reading.spl_db ?? -28.0,
           };
 
           set((state) => {
@@ -73,25 +94,33 @@ export const useLiveStore = create<LiveStoreState>((set, get) => {
               derived: liveData.derived,
               honeyState: liveData.honey_state,
               lastPacketTime: now,
+              connectionStatus: 'connected',
               isStale: false,
               rollingHistory: hist,
             };
           });
         }
       } catch (err) {
-        // quiet fallback
+        const last = get().lastPacketTime;
+        if (!last || Date.now() - last.getTime() > 10000) {
+          set({ connectionStatus: 'disconnected' });
+        }
       }
     },
 
     connectWebSocket: () => {
-      // Clear existing
+      // Clear previous resources
       if (ws) {
         try { ws.close(); } catch (_) {}
+        ws = null;
       }
       clearTimeout(reconnectTimeout);
       clearInterval(staleInterval);
+      clearInterval(pollInterval);
 
-      set({ connectionStatus: 'connecting' });
+      // Pre-load rolling 60-minute data immediately on initialization
+      get().fetchRecentHistory();
+      get().pollFallback();
 
       const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
       const wsUrl = `${protocol}//${window.location.host}/ws/live`;
@@ -129,44 +158,46 @@ export const useLiveStore = create<LiveStoreState>((set, get) => {
                   honeyState: data.honey_state,
                   alerts: combinedAlerts,
                   lastPacketTime: now,
+                  connectionStatus: 'connected',
                   isStale: false,
                   rollingHistory: hist,
                 };
               });
             }
           } catch (e) {
-            console.error('Failed to parse websocket message', e);
+            // quiet parse error
           }
         };
 
         ws.onclose = () => {
-          set({ connectionStatus: 'disconnected' });
-          // Auto reconnect with 2.5s backoff
           reconnectTimeout = setTimeout(() => {
             get().connectWebSocket();
-          }, 2500);
+          }, 3000);
         };
 
         ws.onerror = () => {
           try { ws?.close(); } catch (_) {}
         };
       } catch (e) {
-        set({ connectionStatus: 'disconnected' });
         reconnectTimeout = setTimeout(() => {
           get().connectWebSocket();
         }, 3000);
       }
 
-      // Check for stale data (>10 seconds without updates)
+      // Active 2s polling interval ensures live data never stops even if WS drops
+      pollInterval = setInterval(async () => {
+        if (!ws || ws.readyState !== WebSocket.OPEN) {
+          await get().pollFallback();
+        }
+      }, 2000);
+
+      // Check for stale data (>10 seconds without any packet)
       staleInterval = setInterval(() => {
         const last = get().lastPacketTime;
         if (last && Date.now() - last.getTime() > 10000) {
           set({ isStale: true });
         }
       }, 2000);
-
-      // Also trigger initial REST poll to populate instantly
-      get().pollFallback();
     }
   };
 });
