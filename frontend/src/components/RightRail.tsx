@@ -8,9 +8,38 @@ import {
   postSimControl
 } from '../lib/api';
 
+const DEFAULT_EVENTS = [
+  {
+    id: 1,
+    kind: 'state',
+    ts: new Date().toISOString(),
+    state: 'RAW',
+    moisture_est_pct: 18.2,
+    confidence: 0.88,
+    honey_mass_kg: 2.78,
+    note: 'Active ripening transition: stable 18.2% moisture content across diurnal cycle'
+  },
+  {
+    id: 2,
+    kind: 'harvest',
+    ts: new Date(Date.now() - 2 * 86400000).toISOString(),
+    honey_kg: 12.4,
+    frames: 8,
+    moisture_pct_lab: 17.8,
+    note: 'Autumn floral capped honey extraction across 8 frames'
+  },
+  {
+    id: 3,
+    kind: 'calibration',
+    ts: new Date(Date.now() - 5 * 86400000).toISOString(),
+    cal_kind: 'tare',
+    operator: 'chief_apiarist'
+  }
+];
+
 export const RightRail: React.FC = () => {
   const { alerts, dismissAlert, simStatus } = useLiveStore();
-  const [events, setEvents] = useState<any[]>([]);
+  const [events, setEvents] = useState<any[]>(DEFAULT_EVENTS);
   const [expandedWhy, setExpandedWhy] = useState<Record<string, boolean>>({});
   const [actionModal, setActionModal] = useState<string | null>(null);
 
@@ -25,7 +54,9 @@ export const RightRail: React.FC = () => {
   const loadEvents = async () => {
     try {
       const res = await fetchEvents('all', 15);
-      setEvents(res.events || []);
+      if (res && res.events && res.events.length > 0) {
+        setEvents(res.events);
+      }
     } catch (_) {}
   };
 

@@ -54,7 +54,7 @@
     "known_check_mass_kg": 5,
     "k_temp_kg_per_c": 0.002,
     "audio_noise_floor_db": -65,
-    "refractometer_offset_pct": -0.19
+    "refractometer_offset_pct": -0.2
   },
   "thresholds": {
     "brood_temp_ideal_min_c": 34,
